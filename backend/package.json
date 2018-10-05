@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend application for login app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GowthamSiddarth/LoginAppJSFullStack.git"
+  },
+  "keywords": [
+    "backend",
+    "node",
+    "login",
+    "fullstack"
+  ],
+  "author": "Gowtham Behara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GowthamSiddarth/LoginAppJSFullStack/issues"
+  },
+  "homepage": "https://github.com/GowthamSiddarth/LoginAppJSFullStack#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "gravatar": "^1.6.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.8.0"
+  }
+}
