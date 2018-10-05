@@ -47,7 +47,15 @@ router.post('/register', function (req, res) {
                         } else {
                             newUser.password = hash;
                             newUser.save()
-                                .then(user => res.json(user))
+                                .then(user => {
+                                    var userObj = user.toJSON();
+                                    const token = jwt.sign({ sub: userObj._id }, 'secret');
+                                    userObj.token = token;
+                                    delete userObj._id;
+                                    delete userObj.__v;
+                                    delete userObj.password;
+                                    res.json(userObj);
+                                })
                                 .catch(err => console.error(err));
                         }
                     });
@@ -103,3 +111,14 @@ router.post('/login', function (req, res) {
                 })
         });
 })
+
+router.get('/me', passport.authenticate('jwt', { session: false }), (req, res) => {
+    return res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+    });
+});
+
+
+module.exports = router;

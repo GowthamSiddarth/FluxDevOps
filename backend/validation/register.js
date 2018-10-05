@@ -6,7 +6,7 @@ module.exports = function validateRegisterInput(data) {
     data.name = !isEmpty(data.name) ? data.name : '';
     data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password : '';
-    data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
+    data.confirm_password = !isEmpty(data.confirm_password) ? data.confirm_password : '';
 
     if (!Validator.isLength(data.name, { min: 2, max: 30 })) {
         errors.name = 'Name must be between 2 to 30 chars';
@@ -32,16 +32,16 @@ module.exports = function validateRegisterInput(data) {
         errors.password = 'Password field is required';
     }
 
-    if (!Validator.isLength(data.password_confirm, { min: 6, max: 30 })) {
-        errors.password_confirm = 'Password must be between 6 to 30 chars';
+    if (!Validator.isLength(data.confirm_password, { min: 6, max: 30 })) {
+        errors.confirm_password = 'Password must be between 6 to 30 chars';
     }
 
-    if (Validator.isEmpty(data.password_confirm)) {
-        errors.password_confirm = 'Password field is required';
+    if (Validator.isEmpty(data.confirm_password)) {
+        errors.confirm_password = 'Password field is required';
     }
 
-    if (!Validator.equals(data.password, data.password_confirm)) {
-        errors.password_confirm = 'Password and Confirm Password must match';
+    if (!Validator.equals(data.password, data.confirm_password)) {
+        errors.confirm_password = 'Password and Confirm Password must match';
     }
 
     return {
