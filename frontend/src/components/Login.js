@@ -31,7 +31,13 @@ class Login extends Component {
             password: this.state.password,
         }
 
-        this.props.loginUser(user);
+        this.props.loginUser(user, this.props.history);
+    }
+
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push('/');
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,7 +49,7 @@ class Login extends Component {
     }
 
     render() {
-        const {errors} = this.state;
+        const { errors } = this.state;
         return (
             <div className="container" style={{ marginTop: '50px', width: '700px' }}>
                 <h2 style={{ marginBottom: '40px' }}>Login</h2>
@@ -86,10 +92,13 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+    loginUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
+    auth: state.auth,
     errors: state.errors
 });
 
