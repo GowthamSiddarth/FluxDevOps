@@ -9,13 +9,13 @@ class Navbar extends Component {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <Link class="nav-link" href="/" to="/">Home</Link>
+                            <Link className="nav-link" href="/" to="/">Home</Link>
                         </li>
                         <li class="nav-item">
-                            <Link class="nav-link" href="/register" to="/register">Register</Link>
+                            <Link className="nav-link" href="/register" to="/register">Register</Link>
                         </li>
                         <li class="nav-item">
-                            <Link class="nav-link" href="/login" to="/login">Login</Link>
+                            <Link className="nav-link" href="/login" to="/login">Login</Link>
                         </li>
                     </ul>
                 </div>
