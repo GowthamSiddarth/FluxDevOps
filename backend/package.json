@@ -4,7 +4,8 @@
   "description": "backend application for login app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"No tests specified\" && exit 1"
+    "test": "echo \"No tests specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
