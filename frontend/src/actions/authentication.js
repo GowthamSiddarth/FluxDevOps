@@ -22,7 +22,7 @@ export const loginUser = (user, history) => dispatch => {
             setAuthToken(token);
             const decoded = jwtDecode(token);
             dispatch(setCurrentUser(decoded));
-            history.push('/');
+            history.push('/home');
         })
         .catch(err => {
             dispatch({

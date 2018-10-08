@@ -49,7 +49,7 @@ class Register extends Component {
 
     componentDidMount() {
         if(this.props.auth.isAuthenticated) {
-            this.props.history.push('/');
+            this.props.history.push('/home');
         }
     }
 
@@ -124,7 +124,8 @@ class Register extends Component {
 
 Register.propTypes = {
     registerUser: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

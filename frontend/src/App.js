@@ -9,7 +9,7 @@ import { setCurrentUser, logoutUser } from './actions/authentication';
 import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
-import Home from './components/Home';
+import Welcome from './components/Welcome';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -32,7 +32,7 @@ class App extends Component {
         <Router>
           <div>
             <Navbar />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Welcome} />
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
