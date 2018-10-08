@@ -9,7 +9,6 @@ import { setCurrentUser, logoutUser } from './actions/authentication';
 import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
-import Welcome from './components/Welcome';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,11 +30,11 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div>
-            <Navbar />
-            <Route exact path="/" component={Welcome} />
+            <Navbar />            
             <div className="container">
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/" component={Login} />
             </div>
           </div>
         </Router>
