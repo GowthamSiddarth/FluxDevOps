@@ -100,7 +100,8 @@ router.post('/login', function (req, res) {
                             } else {
                                 res.json({
                                     success: true,
-                                    token: 'Bearer ' + token
+                                    token: 'Bearer ' + token,
+                                    name: payload.name,
                                 })
                             }
                         });
