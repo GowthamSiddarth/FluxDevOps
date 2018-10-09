@@ -4,8 +4,9 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./db');
 const users = require('./routes/User');
+const jenkins = require('./routes/Jenkins');
 
-mongoose.connect(config.DB, { useNewUrlParser: true})
+mongoose.connect(config.DB, { useNewUrlParser: true })
     .then(() => {
         console.log("MongoDB connected");
     }).catch(err => {
@@ -21,8 +22,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api/users', users);
+app.use('/api/jenkins', jenkins);
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.send("hello");
 });
 
