@@ -23,8 +23,8 @@ class Home extends Component {
         console.log(this.props.jenkins.jobs);
         return (
             <div className="container" style={{ marginTop: '50px', width: '700px' }}>
-                <h2 style={{ marginBottom: '40px' }}> Welcome {localStorage.getItem('name')}</h2>
-                <ListGroup>
+                <h2 style={{ marginBottom: '40px', marginLeft: '200px' }}> Welcome {localStorage.getItem('name')}</h2>
+                <ListGroup  style={{ marginBottom: '80px' }}>
                     {
                         this.props.jenkins.jobs ?
                             this.props.jenkins.jobs.map((job) => {
