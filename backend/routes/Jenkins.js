@@ -5,7 +5,7 @@ const links = require('../links');
 
 const router = express.Router();
 
-router.post('/jobs', passport.authenticate('jwt', { session: false }), (req, res) => {    
+router.get('/jobs', passport.authenticate('jwt', { session: false }), (req, res) => {    
     http.get(links.jenkins + '/api/json?pretty=true', (response) => {
         let data = '';
 
@@ -14,12 +14,12 @@ router.post('/jobs', passport.authenticate('jwt', { session: false }), (req, res
         });
 
         response.on('end', () => {
-            res.json(JSON.parse(data).jobs.map((job) => {
+            res.json({success: true, message: JSON.parse(data).jobs.map((job) => {
                 return {
                     name: job.name,
                     url: job.url
                 }
-            }));
+            })});
         });
     }).on("error", (err) => {
         console.log(err.message);
