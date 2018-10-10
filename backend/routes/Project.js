@@ -24,11 +24,13 @@ router.post('/createNewProject', passport.authenticate('jwt', { session: false }
             });
 
             newProject.save()
-                .then(project =>{
-                    var projectObj = project.toJSON();
-                    delete projectObj._id;
-                    delete projectObj.__v;                    
-                    res.json(projectObj);
+                .then(project =>{                                       
+                    res.json({
+                        success: true,
+                        message: {
+                            exists: false
+                        }
+                    });
                 })
                 .catch(err => console.log(err));
         }
