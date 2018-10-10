@@ -10,6 +10,12 @@ import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 
 class Home extends Component {
 
+    constructor() {
+        super();
+
+        this.navigateToProjectLocation = this.navigateToProjectLocation.bind(this);
+    }
+
     componentWillMount() {
         this.props.getJenkinsJobs();
     }
@@ -20,12 +26,17 @@ class Home extends Component {
         }
     }
 
+    navigateToProjectLocation() {
+        this.props.history.push('/projectLocation');
+    }
+
     render() {
         return (
             <HorizontalCenterView>
                 <div className="container" style={{ marginTop: '50px' }}>
                     <HorizontalCenterView left="4" center="4" right="4">
-                        <Button bsStyle="primary">Create New Job</Button>
+                        {/* <Button bsStyle="primary" onClick={this.props.history.push('/projectLocation')}>Create New Job</Button> */}
+                        <Button bsStyle="primary" onClick={this.navigateToProjectLocation}>Create New Job</Button>
                     </HorizontalCenterView>
                     <ListGroup style={{ marginBottom: '80px', marginTop: '20px' }}>
                         {
