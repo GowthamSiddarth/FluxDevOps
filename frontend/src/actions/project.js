@@ -9,7 +9,7 @@ export const createNewProject = (location, history) => dispatch => {
                 type: res.data.success ? FETCH_DATA_SUCCESS : FETCH_DATA_FAILURE,
                 payload: res.data.message,
             })
-            history.push('/projectCreated');            
+            history.push('/selectProjectType');            
         })
         .catch(err => {
             dispatch({
