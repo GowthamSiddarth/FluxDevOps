@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
+import classnames from 'classnames';
 
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 import { createNewProject } from '../actions/project';
@@ -15,7 +16,8 @@ class ProjectLocation extends Component {
         super();
 
         this.state = {
-            projectLocation: ''
+            projectLocation: '',
+            errors: {},
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -28,9 +30,20 @@ class ProjectLocation extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.errors) {
+            this.setState({
+                errors: nextProps.errors
+            });
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        this.props.createNewProject(this.state.projectLocation);
+        const project = {
+            projectLocation: this.state.projectLocation
+        };
+        this.props.createNewProject(project, this.props.history);
     }
 
     handleChange(e) {
@@ -40,19 +53,24 @@ class ProjectLocation extends Component {
     }
 
     render() {
+        const { errors } = this.state;
         return (
             <div style={{ marginTop: '50px' }}>
                 <HorizontalCenterView left="4" center="4" right="4">
                     <form onSubmit={this.handleSubmit} >
-                        <FormGroup controlId="formBasicText">
-                            <ControlLabel>Enter project location</ControlLabel>
-                            <FormControl
+                        <div className="form-group">
+                            <input
                                 type="text"
-                                value={this.state.projectLocation}
-                                placeholder="Enter text"
+                                placeholder="Enter Project Location"
+                                className={classnames('form-control form-control-lg', {
+                                    'is-invalid': errors.projectLocation
+                                })}
+                                name="projectLocation"
                                 onChange={this.handleChange}
+                                value={this.state.projectLocation}
                             />
-                        </FormGroup>
+                            {errors.projectLocation && (<div className="invalid-feedback">{errors.projectLocation}</div>)}
+                        </div>
                         <Button type="submit">Submit</Button>
                     </form>
                 </HorizontalCenterView>
@@ -65,6 +83,7 @@ ProjectLocation.propTypes = {
     createNewProject: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -74,6 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => ({
     auth: state.auth,
     project: state.project,
+    errors: state.errors,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProjectLocation));
