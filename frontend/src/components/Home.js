@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
 import { getJenkinsJobs } from '../actions/jenkins';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { HorizontalCenterView } from '../views/HorizontalCenterView';
+import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 
 class Home extends Component {
 
@@ -20,19 +21,22 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.props.jenkins.jobs);
         return (
-            <div className="container" style={{ marginTop: '50px', width: '700px' }}>
-                <h2 style={{ marginBottom: '40px', marginLeft: '200px' }}> Welcome {localStorage.getItem('name')}</h2>
-                <ListGroup  style={{ marginBottom: '80px' }}>
-                    {
-                        this.props.jenkins.jobs ?
-                            this.props.jenkins.jobs.map((job) => {
-                                return <ListGroupItem href={job.url}>{job.name}</ListGroupItem>;
-                            }) : null
-                    }
-                </ListGroup>
-            </div>
+            <HorizontalCenterView>
+                <div className="container" style={{ marginTop: '50px' }}>
+                    <HorizontalCenterView left="4" center="4" right="4">
+                        <Button bsStyle="primary">Create New Job</Button>
+                    </HorizontalCenterView>
+                    <ListGroup style={{ marginBottom: '80px', marginTop: '20px' }}>
+                        {
+                            this.props.jenkins.jobs ?
+                                this.props.jenkins.jobs.map((job) => {
+                                    return <ListGroupItem href={job.url}>{job.name}</ListGroupItem>;
+                                }) : null
+                        }
+                    </ListGroup>
+                </div>
+            </HorizontalCenterView>
         );
     }
 }
