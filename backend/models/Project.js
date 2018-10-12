@@ -6,6 +6,10 @@ const ProjectSchema = new Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    }
 });
 
 const Project = mongoose.model('projects', ProjectSchema);
