@@ -1,12 +1,12 @@
 const express = require('express');
 const passport = require('passport');
-const validateProjectLocation = require('../validation/projectLocation');
+const validateProjectDetails = require('../validation/projectDetails');
 
 const Project = require('../models/Project');
 const router = express.Router();
 
 router.post('/createNewProject', passport.authenticate('jwt', { session: false }), function (req, res) {
-    const { errors, isValid } = validateProjectLocation(req.body);
+    const { errors, isValid } = validateProjectDetails(req.body);    
 
     if (!isValid) {
         res.status(400).json(errors);
@@ -20,7 +20,8 @@ router.post('/createNewProject', passport.authenticate('jwt', { session: false }
             return res.status(400).json(errors);
         } else {
             const newProject = new Project({
-                location: req.body.projectLocation
+                location: req.body.projectLocation,
+                type: req.body.projectType,
             });
 
             newProject.save()
