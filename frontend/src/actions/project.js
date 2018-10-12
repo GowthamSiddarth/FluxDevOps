@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { GET_ERRORS, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from './types';
 
-export const createNewProject = (location, history) => dispatch => {
-    axios.post('/api/projects/createNewProject', location)
+export const createNewProject = (projectDetails, history) => dispatch => {
+    axios.post('/api/projects/createNewProject', projectDetails)
         .then(res => {
             dispatch({
                 type: res.data.success ? FETCH_DATA_SUCCESS : FETCH_DATA_FAILURE,
