@@ -10,7 +10,7 @@ import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 import { createNewProject } from '../actions/project';
 
-class ProjectLocation extends Component {
+class ProjectDetails extends Component {
 
     constructor() {
         super();
@@ -20,7 +20,8 @@ class ProjectLocation extends Component {
             errors: {},
         }
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleProjectLocationChange = this.handleProjectLocationChange.bind(this);
+        this.handleProjectTypeChange = this.handleProjectTypeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -41,19 +42,27 @@ class ProjectLocation extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const project = {
-            projectLocation: this.state.projectLocation
+            projectLocation: this.state.projectLocation,
+            projectType: this.state.projectType,
         };
         this.props.createNewProject(project, this.props.history);
     }
 
-    handleChange(e) {
+    handleProjectTypeChange(e) {
+        console.log(e.target.value);
+        this.setState({
+            projectType: e.target.value
+        });
+    }
+
+    handleProjectLocationChange(e) {
         this.setState({
             projectLocation: e.target.value
         });
     }
 
     render() {
-        const { errors } = this.state;
+        const { errors } = this.state;        
         return (
             <div style={{ marginTop: '50px' }}>
                 <HorizontalCenterView left="4" center="4" right="4">
@@ -66,10 +75,22 @@ class ProjectLocation extends Component {
                                     'is-invalid': errors.projectLocation
                                 })}
                                 name="projectLocation"
-                                onChange={this.handleChange}
+                                onChange={this.handleProjectLocationChange}
                                 value={this.state.projectLocation}
                             />
                             {errors.projectLocation && (<div className="invalid-feedback">{errors.projectLocation}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <select
+                                className={classnames('form-control form-control-lg', {
+                                    'is-invalid': errors.projectType
+                                })}
+                                onChange={this.handleProjectTypeChange}>
+                                <option value="Select Project Type">Select Project Type</option>
+                                <option value="Maven">Maven</option>
+                                <option value="NPM">NPM</option>
+                            </select>
+                            {errors.projectType && (<div className="invalid-feedback">{errors.projectType}</div>)}
                         </div>
                         <Button type="submit">Submit</Button>
                     </form>
@@ -79,7 +100,7 @@ class ProjectLocation extends Component {
     }
 }
 
-ProjectLocation.propTypes = {
+ProjectDetails.propTypes = {
     createNewProject: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
@@ -96,4 +117,4 @@ const mapStateToProps = (state) => ({
     errors: state.errors,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProjectLocation));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProjectDetails));

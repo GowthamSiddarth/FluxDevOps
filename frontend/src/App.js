@@ -10,8 +10,7 @@ import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
-import ProjectLocation from './components/ProjectLocation';
-import ProjectType from './components/ProjectType';
+import ProjectDetails from './components/ProjectDetails';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,8 +38,7 @@ class App extends Component {
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Login} />
               <Route exact path="/home" component={Home} />
-              <Route exact path="/projectLocation" component={ProjectLocation} />
-              <Route exact path="/selectProjectType" component={ProjectType} />
+              <Route exact path="/projectDetails" component={ProjectDetails} />
             </div>
           </div>
         </Router>

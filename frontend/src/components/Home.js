@@ -27,7 +27,7 @@ class Home extends Component {
     }
 
     navigateToProjectLocation() {
-        this.props.history.push('/projectLocation');
+        this.props.history.push('/projectDetails');
     }
 
     render() {
