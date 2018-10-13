@@ -42,7 +42,7 @@ class Home extends Component {
                         {
                             this.props.jenkins.jobs ?
                                 this.props.jenkins.jobs.map((job) => {
-                                    return <ListGroupItem href={job.url}>{job.name}</ListGroupItem>;
+                                    return <ListGroupItem key={job.name} href={job.url}>{job.name}</ListGroupItem>;
                                 }) : null
                         }
                     </ListGroup>
