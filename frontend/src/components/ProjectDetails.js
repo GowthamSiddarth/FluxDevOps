@@ -49,7 +49,6 @@ class ProjectDetails extends Component {
     }
 
     handleProjectTypeChange(e) {
-        console.log(e.target.value);
         this.setState({
             projectType: e.target.value
         });
