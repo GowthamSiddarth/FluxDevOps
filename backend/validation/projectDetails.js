@@ -5,9 +5,14 @@ module.exports = function validateProjectDetails(data) {
     let errors = {};
     data.projectLocation = !isEmpty(data.projectLocation) ? data.projectLocation : '';
     data.projectType = !isEmpty(data.projectType) ? data.projectType : '';
+    data.projectName = !isEmpty(data.projectName) ? data.projectName : '';
 
     if (Validator.isEmpty(data.projectLocation)) {
         errors.projectLocation = 'Project Location cannot be empty!';
+    }
+
+    if (Validator.isEmpty(data.projectName)) {
+        errors.projectName = 'Project Name cannot be empty!';
     }
 
     if (Validator.isEmpty(data.projectType) || Validator.equals(data.projectType, "Select Project Type")) {
