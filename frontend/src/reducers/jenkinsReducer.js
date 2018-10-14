@@ -1,4 +1,4 @@
-import { FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE } from '../actions/types';
+import { FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, JOB_CREATION_SUCCESS } from '../actions/types';
 
 export default function (state = [], action) {
     switch (action.type) {
@@ -7,6 +7,11 @@ export default function (state = [], action) {
                 ...state,
                 jobs: action.payload
             };
+        case JOB_CREATION_SUCCESS:
+            return {
+                ...state,
+                job: action.payload
+            }
         default: return { ...state }
     }
 } 
