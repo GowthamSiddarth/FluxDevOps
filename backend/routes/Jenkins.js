@@ -33,15 +33,15 @@ router.get('/jobs', passport.authenticate('jwt', { session: false }), (req, res)
     });
 });
 
-router.get('/createNewJob/:projectName', (req, res) => {
+router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (req, res) => {
     fs.readFile(__dirname + '/../jenkins-job-config.xml', (err, data) => {
         const xmlParser = new xml2js.Parser();
         xmlParser.parseString(data, (err, json) => {
-            json['flow-definition']['displayName'] = req.params.projectName
+            json['flow-definition']['displayName'] = req.body.jobName
 
             const xmlBuilder = new xml2js.Builder();
             const configXml = xmlBuilder.buildObject(json);
-            jenkins.create_job(req.params.projectName, configXml, (err, data) => {
+            jenkins.create_job(req.body.jobName, configXml, (err, data) => {
                 if (err) {
                     console.log(err);
                     res.status(500).json({ message: 'Some server error occurred' });
