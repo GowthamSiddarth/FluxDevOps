@@ -31,7 +31,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <HorizontalCenterView>
                 <div className="container" style={{ marginTop: '50px' }}>
