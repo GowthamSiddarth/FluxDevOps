@@ -9,6 +9,7 @@ import { Button } from 'react-bootstrap';
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 import { createNewProject } from '../actions/project';
+import { createNewJob } from '../actions/jenkins';
 
 class ProjectDetails extends Component {
 
@@ -48,7 +49,12 @@ class ProjectDetails extends Component {
             projectType: this.state.projectType,
             projectName: this.state.projectName,
         };
-        this.props.createNewProject(project, this.props.history);
+        const job = {
+            jobName: this.state.projectName,
+        }
+
+        this.props.createNewJob(job);
+        this.props.createNewProject(project, this.props.history);                
     }
 
     handleProjectTypeChange(e) {
@@ -70,7 +76,7 @@ class ProjectDetails extends Component {
     }
 
     render() {
-        const { errors } = this.state;        
+        const { errors } = this.state;
         return (
             <div style={{ marginTop: '50px' }}>
                 <HorizontalCenterView left="4" center="4" right="4">
@@ -123,6 +129,7 @@ class ProjectDetails extends Component {
 
 ProjectDetails.propTypes = {
     createNewProject: PropTypes.func.isRequired,
+    createNewJob: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     project: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
@@ -130,6 +137,7 @@ ProjectDetails.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     createNewProject: bindActionCreators(createNewProject, dispatch),
+    createNewJob: bindActionCreators(createNewJob, dispatch),
 });
 
 const mapStateToProps = (state) => ({
