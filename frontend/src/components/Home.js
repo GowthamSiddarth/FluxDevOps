@@ -31,6 +31,7 @@ class Home extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <HorizontalCenterView>
                 <div className="container" style={{ marginTop: '50px' }}>
@@ -40,7 +41,7 @@ class Home extends Component {
                     </HorizontalCenterView>
                     <ListGroup style={{ marginBottom: '80px', marginTop: '20px' }}>
                         {
-                            this.props.jenkins.jobs ?
+                            this.props.jenkins.jobs && Array.isArray(this.props.jenkins.jobs) ?
                                 this.props.jenkins.jobs.map((job) => {
                                     return <ListGroupItem key={job.name} href={job.url}>{job.name}</ListGroupItem>;
                                 }) : null
