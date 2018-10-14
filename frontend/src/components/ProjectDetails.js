@@ -17,11 +17,13 @@ class ProjectDetails extends Component {
 
         this.state = {
             projectLocation: '',
+            projectName: '',
             errors: {},
         }
 
         this.handleProjectLocationChange = this.handleProjectLocationChange.bind(this);
         this.handleProjectTypeChange = this.handleProjectTypeChange.bind(this);
+        this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -44,6 +46,7 @@ class ProjectDetails extends Component {
         const project = {
             projectLocation: this.state.projectLocation,
             projectType: this.state.projectType,
+            projectName: this.state.projectName,
         };
         this.props.createNewProject(project, this.props.history);
     }
@@ -57,6 +60,12 @@ class ProjectDetails extends Component {
     handleProjectLocationChange(e) {
         this.setState({
             projectLocation: e.target.value
+        });
+    }
+
+    handleProjectNameChange(e) {
+        this.setState({
+            projectName: e.target.value
         });
     }
 
@@ -78,6 +87,19 @@ class ProjectDetails extends Component {
                                 value={this.state.projectLocation}
                             />
                             {errors.projectLocation && (<div className="invalid-feedback">{errors.projectLocation}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Enter Project Name"
+                                className={classnames('form-control form-control-lg', {
+                                    'is-invalid': errors.projectName
+                                })}
+                                name="projectName"
+                                onChange={this.handleProjectNameChange}
+                                value={this.state.projectName}
+                            />
+                            {errors.projectName && (<div className="invalid-feedback">{errors.projectName}</div>)}
                         </div>
                         <div className="form-group">
                             <select
