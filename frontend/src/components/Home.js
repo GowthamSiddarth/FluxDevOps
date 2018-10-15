@@ -58,7 +58,7 @@ class Home extends Component {
                                     return (
                                         <ListGroupItem key={job.name} href={job.url}>
                                             {job.name}
-                                            <span style={{ marginLeft: '500px' }}>
+                                            <span className="float-sm-right">
                                                 <Button
                                                     bsStyle="success"
                                                     data-jobname={job.name}
