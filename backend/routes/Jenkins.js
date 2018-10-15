@@ -73,7 +73,6 @@ router.post('/scheduleBuild', passport.authenticate('jwt', { session: false }), 
                 console.log(err);
                 res.status(400).json({success: false, message: err});
             } else {
-                console.log(data);
                 res.json({
                     success: true
                 })
