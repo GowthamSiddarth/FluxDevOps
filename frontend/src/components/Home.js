@@ -56,17 +56,17 @@ class Home extends Component {
                             this.props.jenkins.jobs && Array.isArray(this.props.jenkins.jobs) ?
                                 this.props.jenkins.jobs.map((job) => {
                                     return (
-                                        <ListGroupItem key={job.name} href={job.url}>
-                                            {job.name}
-                                            <span className="float-sm-right">
-                                                <Button
-                                                    bsStyle="success"
-                                                    data-jobname={job.name}
-                                                    data-joburl={job.url}
-                                                    onClick={this.scheduleBuild}>
-                                                    Build
+                                        <ListGroupItem style={{ display: 'flex', alignItems: 'center' }} key={job.name} href={job.url}>
+                                            <span>{job.name}</span>
+                                            <Button
+                                                style={{ position: 'absolute', right: 20 }}
+                                                bsStyle="success"
+                                                data-jobname={job.name}
+                                                data-joburl={job.url}
+                                                onClick={this.scheduleBuild}>
+                                                Build
                                                 </Button>
-                                            </span>
+
                                         </ListGroupItem>);
                                 }) : null
                         }
