@@ -8,12 +8,15 @@ import { getJenkinsJobs } from '../actions/jenkins';
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 
+import { scheduleBuild } from '../actions/jenkins';
+
 class Home extends Component {
 
     constructor() {
         super();
 
         this.navigateToProjectLocation = this.navigateToProjectLocation.bind(this);
+        this.scheduleBuild = this.scheduleBuild.bind(this);
     }
 
     componentWillMount() {
@@ -28,6 +31,16 @@ class Home extends Component {
 
     navigateToProjectLocation() {
         this.props.history.push('/projectDetails');
+    }
+
+    scheduleBuild(e) {
+        e.preventDefault();
+        const job = {
+            jobName: e.target.getAttribute('data-jobname'),
+        };
+
+        this.props.scheduleBuild(job);
+        window.open(e.target.getAttribute('data-joburl'), '_blank').focus();
     }
 
     render() {
@@ -46,7 +59,13 @@ class Home extends Component {
                                         <ListGroupItem key={job.name} href={job.url}>
                                             {job.name}
                                             <span style={{ marginLeft: '500px' }}>
-                                                <Button bsStyle="success">Build</Button>
+                                                <Button
+                                                    bsStyle="success"
+                                                    data-jobname={job.name}
+                                                    data-joburl={job.url}
+                                                    onClick={this.scheduleBuild}>
+                                                    Build
+                                                </Button>
                                             </span>
                                         </ListGroupItem>);
                                 }) : null
@@ -60,12 +79,14 @@ class Home extends Component {
 
 Home.propTypes = {
     getJenkinsJobs: PropTypes.func.isRequired,
+    scheduleBuild: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     jenkins: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
     getJenkinsJobs: bindActionCreators(getJenkinsJobs, dispatch),
+    scheduleBuild: bindActionCreators(scheduleBuild, dispatch),
 });
 
 
