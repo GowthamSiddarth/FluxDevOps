@@ -19,7 +19,7 @@
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.58">
     <script>
     node {
-        def mvnHome
+        def mvnHome, javaHome
         stage('Preparation') { // for display purposes
             // Get some code from a GitHub repository
             //git 'https://github.com/jglick/simple-maven-project-with-tests.git'
@@ -28,6 +28,7 @@
             // ** NOTE: This 'M3' Maven tool must be configured
             // **       in the global configuration.           
             mvnHome = tool 'M3'
+            javaHome = tool 'jdk_1.8.0_131'
         }
         stage('Build') {
             // Run the maven build
@@ -37,9 +38,13 @@
                 bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
             }
         }
-        stage('Results') {
-            junit '**/target/surefire-reports/TEST-*.xml'
-            archive 'target/*.jar'
+        stage('Deploy') {
+            // Deploy the war
+            if (isUnix()) {
+                sh "java -jar target/dependency/webapp-runner.jar --port $PORT target/*.war"
+            } else {
+                bat(/"${javaHome}\bin\java" -jar target\dependency\webapp-runner.jar --port 9009 target\*.war/)
+            }
         }
     }
     </script>
