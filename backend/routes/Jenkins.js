@@ -9,6 +9,8 @@ const links = require('../links');
 const secrets = require('../secrets');
 const remoteTokenLogin = require('../remote-token-login');
 
+const Project = require('../models/Project');
+
 const router = express.Router();
 
 const jenkinsToken = secrets.jenkinsToken;
@@ -56,6 +58,28 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
             });
         });
     });
+});
+
+router.post('/scheduleBuild', passport.authenticate('jwt', { session: false }), (req, res) => {
+    Project.findOne({
+        name: req.body.jobName
+    }).then(project => {
+        jenkins.build_with_params(req.body.jobName, {
+            depth: 1, 
+            projectLocation: project.location,
+            token: 'jenkins-token'
+        }, (err, data) => {
+            if (err) {
+                console.log(err);
+                res.status(400).json({success: false, message: err});
+            } else {
+                console.log(data);
+                res.json({
+                    success: true
+                })
+            }
+        });
+    }).catch(err => console.log(err));
 });
 
 module.exports = router;
