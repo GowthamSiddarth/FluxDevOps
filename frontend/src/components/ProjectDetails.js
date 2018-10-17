@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 
 import { Button } from 'react-bootstrap';
+import { UncontrolledAlert } from "reactstrap";
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 import { createNewProject } from '../actions/project';
@@ -32,6 +33,7 @@ class ProjectDetails extends Component {
         this.handleProjectLocationChange = this.handleProjectLocationChange.bind(this);
         this.handleProjectTypeChange = this.handleProjectTypeChange.bind(this);
         this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
+        this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -126,6 +128,13 @@ class ProjectDetails extends Component {
         }
     }
 
+    handleBuildCommandChange(e) {
+        e.preventDefault();
+        this.setState({
+            buildCommand: e.target.value,
+        })
+    }
+
     render() {
         const { errors } = this.state;
         return (
@@ -208,14 +217,17 @@ class ProjectDetails extends Component {
                                             'is-invalid': errors.buildCommand
                                         })}
                                         name="buildCommand"
-                                        onChange={this.handleProjectNameChange}
+                                        onChange={this.handleBuildCommandChange}
                                         value={this.state.buildCommand}
                                     />
+                                    <UncontrolledAlert color="info">
+                                        This is the default build command which we'll be using. You can edit it according to your project
+                                    </UncontrolledAlert>
                                     {errors.buildCommand && (<div className="invalid-feedback">{errors.buildCommand}</div>)}
                                 </div>
                             )
                         }
-                        <Button type="submit" disabled={this.state.buildCommandIsHidden}>Submit</Button>
+                        <Button type="submit" disabled={this.state.buildCommandIsHidden || this.state.buildCommand.length === 0}>Submit</Button>
                     </form>
                 </HorizontalCenterView>
             </div>
