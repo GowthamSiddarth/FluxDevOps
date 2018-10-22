@@ -7,7 +7,7 @@ import classnames from "classnames";
 
 import { Button } from "react-bootstrap";
 
-import { getJobDetails } from "../actions/jenkins";
+import { getJobDetails, configureJob } from "../actions/jenkins";
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 class ProjectConfiguration extends Component {
@@ -133,6 +133,7 @@ class ProjectConfiguration extends Component {
 
 ProjectConfiguration.propTypes = {
     getJobDetails: PropTypes.func.isRequired,
+    configureJob: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     jenkins: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
@@ -140,6 +141,7 @@ ProjectConfiguration.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
     getJobDetails: bindActionCreators(getJobDetails, dispatch),
+    configureJob: bindActionCreators(configureJob, dispatch),
 });
 
 const mapStateToProps = (state) => ({
