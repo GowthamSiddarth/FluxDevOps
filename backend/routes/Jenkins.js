@@ -76,7 +76,7 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
                                 scm: req.body.projectLocationType,
                                 path: req.body.projectLocation,
                             });
-                            
+
                             const newProject = new Project({
                                 location: newProjectLocation,
                                 name: req.body.projectName,
@@ -90,7 +90,6 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
 
                             newJenkinsJob.save()
                                 .then(project => {
-                                    console.log("new Job saved in db");
                                     jenkins.create_job(req.body.projectName, configXml, (err, data) => {
                                         if (err) {
                                             console.log(err);
