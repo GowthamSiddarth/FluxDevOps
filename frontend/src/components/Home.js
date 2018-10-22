@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-import { getJenkinsJobs } from '../actions/jenkins';
+import { getJenkinsJobs, scheduleBuild } from '../actions/jenkins';
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
-
-import { scheduleBuild } from '../actions/jenkins';
 
 class Home extends Component {
 
