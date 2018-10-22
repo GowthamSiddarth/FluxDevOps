@@ -39,6 +39,7 @@ router.get('/jobs', passport.authenticate('jwt', { session: false }), (req, res)
 });
 
 router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log(req.body);
     fs.readFile(__dirname + '/../jenkins-job-config.xml', (err, data) => {
         if (err) {
             console.log(err);
@@ -59,7 +60,7 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
             }
 
             JenkinsJob.findOne({
-                'project.location': req.body.projectLocation
+                'project.location.path': req.body.projectLocation
             }).then(job => {
                 if (job) {
                     errors.projectLocation = 'Job for Project Location already created!';
@@ -119,12 +120,14 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
 });
 
 router.post('/scheduleBuild', passport.authenticate('jwt', { session: false }), (req, res) => {
-    Project.findOne({
+    JenkinsJob.findOne({
         name: req.body.jobName
-    }).then(project => {
+    }).then(job => {
         jenkins.build_with_params(req.body.jobName, {
             depth: 1,
-            projectLocation: project.location,
+            projectLocation: job.project.location.path,
+            buildCommand: job.project.buildCommand,
+            deployCommand: job.project.deployCommand,
             token: 'jenkins-token'
         }, (err, data) => {
             if (err) {
