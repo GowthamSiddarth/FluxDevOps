@@ -9,7 +9,6 @@ import { Button } from 'react-bootstrap';
 import { UncontrolledAlert } from "reactstrap";
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
-import { createNewProject } from '../actions/project';
 import { createNewJob } from '../actions/jenkins';
 
 class ProjectDetails extends Component {
@@ -33,6 +32,7 @@ class ProjectDetails extends Component {
         this.handleProjectTypeChange = this.handleProjectTypeChange.bind(this);
         this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
         this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
+        this.handleDeployCommandChange = this.handleDeployCommandChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -62,16 +62,15 @@ class ProjectDetails extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const project = {
+            projectLocationType: this.state.projectLocationType,
             projectLocation: this.state.projectLocation,
-            projectType: this.state.projectType,
             projectName: this.state.projectName,
+            projectType: this.state.projectType,
+            buildCommand: this.state.buildCommand,
+            deployCommand: this.state.deployCommand,
         };
-        const job = {
-            jobName: this.state.projectName,
-        }
 
-        this.props.createNewJob(job);
-        this.props.createNewProject(project, this.props.history);
+        this.props.createNewJob(project, this.props.history);
     }
 
     handleProjectLocationTypeChange(e) {
@@ -234,21 +233,19 @@ class ProjectDetails extends Component {
 }
 
 ProjectDetails.propTypes = {
-    createNewProject: PropTypes.func.isRequired,
     createNewJob: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    project: PropTypes.object.isRequired,
+    jenkins: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    createNewProject: bindActionCreators(createNewProject, dispatch),
     createNewJob: bindActionCreators(createNewJob, dispatch),
 });
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    project: state.project,
+    jenkins: state.jenkins,
     errors: state.errors,
 });
 
