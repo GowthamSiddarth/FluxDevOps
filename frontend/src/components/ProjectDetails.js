@@ -143,7 +143,7 @@ class ProjectDetails extends Component {
         const { errors } = this.state;
         return (
             <div style={{ marginTop: '50px', marginBottom: '80px' }}>
-                <HorizontalCenterView left="2" center="8" right="2">
+                <HorizontalCenterView left="3" center="6" right="3">
                     <form onSubmit={this.handleSubmit} >
                         <div className="form-group">
                             <select
