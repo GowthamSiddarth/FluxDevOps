@@ -11,6 +11,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import ProjectDetails from './components/ProjectDetails';
+import ProjectConfiguration from './components/ProjectConfiguration';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -39,6 +40,7 @@ class App extends Component {
               <Route exact path="/" component={Login} />
               <Route exact path="/home" component={Home} />
               <Route exact path="/projectDetails" component={ProjectDetails} />
+              <Route exact path="/projectConfiguration/:projectName" component={ProjectConfiguration} />
             </div>
           </div>
         </Router>
