@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import classnames from "classnames";
 
+import { Button } from "react-bootstrap";
+
 import { getJobDetails } from "../actions/jenkins";
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
@@ -17,6 +19,7 @@ class ProjectConfiguration extends Component {
             buildCommand: '',
             deployCommand: '',
             errors: {},
+            submitButtonIsDisabled: true,
         }
 
         this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
@@ -33,11 +36,20 @@ class ProjectConfiguration extends Component {
         }
     }
 
+    isFormValid() {
+        return this.state.buildCommand.length !== 0 &&
+            this.state.deployCommand.length !== 0;
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.jenkins) {
             this.setState({
                 buildCommand: nextProps.jenkins.buildCommand,
                 deployCommand: nextProps.jenkins.deployCommand,
+            }, () => {
+                this.setState({
+                    submitButtonIsDisabled: !this.isFormValid()
+                })
             })
         }
     }
@@ -46,14 +58,22 @@ class ProjectConfiguration extends Component {
         e.preventDefault();
         this.setState({
             buildCommand: e.target.value.trim(),
-        })
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
+        });
     }
 
     handleDeployCommandChange(e) {
         e.preventDefault();
         this.setState({
             deployCommand: e.target.value.trim(),
-        })
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
+        });
     }
 
     render() {
@@ -91,6 +111,7 @@ class ProjectConfiguration extends Component {
                                 value={this.state.deployCommand}
                             />
                         </div>
+                        <Button type="submit" disabled={this.state.submitButtonIsDisabled}>Submit</Button>
                     </form>
                 </HorizontalCenterView>
             </div>
