@@ -13,6 +13,18 @@
           <defaultValue></defaultValue>
           <trim>true</trim>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>buildCommand</name>
+          <description>Command to build the project</description>
+          <defaultValue></defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>deployCommand</name>
+          <description>Command to deploy the build</description>
+          <defaultValue></defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -33,17 +45,17 @@
         stage('Build') {
             // Run the maven build
             if (isUnix()) {
-                sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+                sh "${params.buildCommand}"
             } else {
-                bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+                bat(/${params.buildCommand}/)
             }
         }
         stage('Deploy') {
             // Deploy the war
             if (isUnix()) {
-                sh "java -jar target/dependency/webapp-runner.jar --port $PORT target/*.war"
+                sh "${params.deployCommand}"
             } else {
-                bat(/"${javaHome}\bin\java" -jar target\dependency\webapp-runner.jar --port 9009 target\*.war/)
+                bat(/${params.deployCommand}/)
             }
         }
     }
