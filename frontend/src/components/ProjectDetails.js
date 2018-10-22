@@ -23,6 +23,7 @@ class ProjectDetails extends Component {
             projectName: '',
             projectType: 'default',
             buildCommand: 'mvn -Dmaven.test.failure.ignore clean package',
+            deployCommand: '',
             submitButtonIsDisabled: true,
             errors: {},
         }
@@ -36,17 +37,12 @@ class ProjectDetails extends Component {
     }
 
     isFormValid() {
-        console.log("projectLocationType = " + this.state.projectLocationType);
-        console.log("projectLocation = " + this.state.projectLocation);
-        console.log("projectName = " + this.state.projectName);
-        console.log("projectType = " + this.state.projectType);
-        console.log("buildCommand = " + this.state.buildCommand);
-
         return this.state.projectLocationType !== 'default' &&
             this.state.projectLocation.length !== 0 &&
             this.state.projectName.length !== 0 &&
             this.state.projectType !== 'default' &&
-            this.state.buildCommand.length !== 0
+            this.state.buildCommand.length !== 0 &&
+            this.state.deployCommand.length !== 0
     }
 
     componentDidMount() {
@@ -129,15 +125,26 @@ class ProjectDetails extends Component {
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
-            })
-        })
+            });
+        });
+    }
+
+    handleDeployCommandChange(e) {
+        e.preventDefault();
+        this.setState({
+            deployCommand: e.target.value.trim(),
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            });
+        });
     }
 
     render() {
         const { errors } = this.state;
         return (
-            <div style={{ marginTop: '50px' }}>
-                <HorizontalCenterView left="4" center="4" right="4">
+            <div style={{ marginTop: '50px', marginBottom: '80px' }}>
+                <HorizontalCenterView left="2" center="8" right="2">
                     <form onSubmit={this.handleSubmit} >
                         <div className="form-group">
                             <select
@@ -204,6 +211,19 @@ class ProjectDetails extends Component {
                                 This is the default build command which we'll be using. You can edit it according to your project
                                     </UncontrolledAlert>
                             {errors.buildCommand && (<div className="invalid-feedback">{errors.buildCommand}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Enter Deploy Command"
+                                className={classnames('form-control form-control-md', {
+                                    'is-invalid': errors.deployCommand
+                                })}
+                                name="deployCommand"
+                                onChange={this.handleDeployCommandChange}
+                                value={this.state.deployCommand}
+                            />
+                            {errors.deployCommand && (<div className="invalid-feedback">{errors.deployCommand}</div>)}
                         </div>
                         <Button type="submit" disabled={this.state.submitButtonIsDisabled}>Submit</Button>
                     </form>
