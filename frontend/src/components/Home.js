@@ -46,7 +46,7 @@ class Home extends Component {
 
     editJobConfiguration(e) {
         e.preventDefault();
-        console.log("Edit Job Configuration");
+        this.props.history.push('/projectConfiguration/' + e.target.getAttribute('data-jobname'));
     }
 
     render() {
@@ -76,7 +76,6 @@ class Home extends Component {
                                                 style={{ position: 'absolute', right: 20 }}
                                                 bsStyle="warning"
                                                 data-jobname={job.name}
-                                                data-joburl={job.url}
                                                 onClick={this.editJobConfiguration}>
                                                 Edit
                                                 </Button>
