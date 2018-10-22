@@ -24,6 +24,7 @@ class ProjectConfiguration extends Component {
 
         this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
         this.handleDeployCommandChange = this.handleDeployCommandChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -76,6 +77,17 @@ class ProjectConfiguration extends Component {
         });
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        const job = {
+            jobName: this.props.match.params.projectName,
+            buildCommand: this.state.buildCommand,
+            deployCommand: this.state.deployCommand,
+        };
+
+        this.props.configureJob(job, this.props.history);
+    }
+
     render() {
         const errors = this.state.errors
         return (
@@ -84,7 +96,7 @@ class ProjectConfiguration extends Component {
                     <HorizontalCenterView left="4" center="4" right="4">
                         <h5 style={{ marginBottom: '50px' }}>{this.props.match.params.projectName}</h5>
                     </HorizontalCenterView>
-                    <form >
+                    <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="buildCommand">Change Build Command</label>
                             <input
