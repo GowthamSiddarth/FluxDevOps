@@ -8,8 +8,10 @@ const xml2js = require('xml2js');
 const links = require('../links');
 const secrets = require('../secrets');
 const remoteTokenLogin = require('../remote-token-login');
+const validateProjectDetails = require('../validation/projectDetails');
 
 const Project = require('../models/Project');
+const JenkinsJob = require('../models/JenkinsJob');
 
 const router = express.Router();
 
@@ -37,25 +39,74 @@ router.get('/jobs', passport.authenticate('jwt', { session: false }), (req, res)
 
 router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (req, res) => {
     fs.readFile(__dirname + '/../jenkins-job-config.xml', (err, data) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({ message: 'Error occurred when reading config.xml' });
+        }
+
         const xmlParser = new xml2js.Parser();
         xmlParser.parseString(data, (err, json) => {
-            json['flow-definition']['displayName'] = req.body.jobName
+            json['flow-definition']['displayName'] = req.body.projectName
 
             const xmlBuilder = new xml2js.Builder();
             const configXml = xmlBuilder.buildObject(json);
-            jenkins.create_job(req.body.jobName, configXml, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.status(500).json({ message: 'Some server error occurred' });
+
+            const { errors, isValid } = validateProjectDetails(req.body);
+
+            if (!isValid) {
+                res.status(400).json(errors);
+            }
+
+            JenkinsJob.findOne({
+                'project.location': req.body.projectLocation
+            }).then(job => {
+                if (job) {
+                    errors.projectLocation = 'Job for Project Location already created!';
+                    return res.status(400).json(errors);
                 } else {
-                    res.json({
-                        success: true, message: {
-                            name: data.name,
-                            url: data.url
+                    JenkinsJob.findOne({
+                        'project.name': req.body.projectName
+                    }).then(job => {
+                        if (job) {
+                            errors.projectName = 'Job for Project Name already created!';
+                            return res.status(400).json(errors);
+                        } else {
+                            const newProject = new Project({
+                                location: req.body.projectLocation,
+                                name: req.body.projectName,
+                                type: req.body.projectType,
+                            });
+
+                            const newJenkinsJob = new JenkinsJob({
+                                name: req.body.projectName,
+                                project: newProject,
+                            });
+
+                            newJenkinsJob.save()
+                                .then(project => {
+                                    console.log("new Job saved in db");
+                                    jenkins.create_job(req.body.projectName, configXml, (err, data) => {
+                                        if (err) {
+                                            console.log(err);
+                                            res.status(500).json({ message: 'Some server error occurred' });
+                                        } else {
+                                            res.json({
+                                                success: true, message: {
+                                                    name: data.name,
+                                                    url: data.url
+                                                }
+                                            });
+                                        }
+                                    });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    return res.status(500).json({ message: 'Some server error occurred' });
+                                });
                         }
-                    });
+                    }).catch(err => console.error(err));
                 }
-            });
+            }).catch(err => console.log(err));
         });
     });
 });
@@ -65,13 +116,13 @@ router.post('/scheduleBuild', passport.authenticate('jwt', { session: false }), 
         name: req.body.jobName
     }).then(project => {
         jenkins.build_with_params(req.body.jobName, {
-            depth: 1, 
+            depth: 1,
             projectLocation: project.location,
             token: 'jenkins-token'
         }, (err, data) => {
             if (err) {
                 console.log(err);
-                res.status(400).json({success: false, message: err});
+                res.status(400).json({ success: false, message: err });
             } else {
                 res.json({
                     success: true
