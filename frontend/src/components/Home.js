@@ -17,6 +17,7 @@ class Home extends Component {
 
         this.navigateToProjectLocation = this.navigateToProjectLocation.bind(this);
         this.scheduleBuild = this.scheduleBuild.bind(this);
+        this.editJobConfiguration = this.editJobConfiguration.bind(this);
     }
 
     componentWillMount() {
@@ -43,6 +44,11 @@ class Home extends Component {
         window.open(e.target.getAttribute('data-joburl'), '_blank').focus();
     }
 
+    editJobConfiguration(e) {
+        e.preventDefault();
+        console.log("Edit Job Configuration");
+    }
+
     render() {
         return (
             <HorizontalCenterView>
@@ -59,14 +65,21 @@ class Home extends Component {
                                         <ListGroupItem style={{ display: 'flex', alignItems: 'center' }} key={job.name} href={job.url}>
                                             <span>{job.name}</span>
                                             <Button
-                                                style={{ position: 'absolute', right: 20 }}
+                                                style={{ position: 'absolute', right: 80 }}
                                                 bsStyle="success"
                                                 data-jobname={job.name}
                                                 data-joburl={job.url}
                                                 onClick={this.scheduleBuild}>
                                                 Build
                                                 </Button>
-
+                                            <Button
+                                                style={{ position: 'absolute', right: 20 }}
+                                                bsStyle="warning"
+                                                data-jobname={job.name}
+                                                data-joburl={job.url}
+                                                onClick={this.editJobConfiguration}>
+                                                Edit
+                                                </Button>
                                         </ListGroupItem>);
                                 }) : null
                         }
