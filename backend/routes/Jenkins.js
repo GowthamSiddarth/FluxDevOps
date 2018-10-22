@@ -119,8 +119,7 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
     });
 });
 
-router.post('/configureJob', passport.authenticate('jwt', { 'session': false }), (req, res) => {
-    console.log(req.body);
+router.post('/configureJob', passport.authenticate('jwt', { 'session': false }), (req, res) => {    
     JenkinsJob.findOneAndUpdate({
         'name': req.body.jobName
     }, {
@@ -136,7 +135,13 @@ router.post('/configureJob', passport.authenticate('jwt', { 'session': false }),
             res.status(500).json({'message': 'Internal server error occurred'});
         }
 
-        res.json(doc);
+        res.json({
+            success: 'true',
+            message: {
+                buildCommand: doc.project.buildCommand,
+                deployCommand: doc.project.deployCommand
+            }
+        });
     })
 })
 
