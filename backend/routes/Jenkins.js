@@ -119,6 +119,20 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
     });
 });
 
+router.get('/getJobDetails/:jobName', passport.authenticate('jwt', { session: false }), (req, res) => {
+    JenkinsJob.findOne({
+        name: req.params.jobName
+    }).then(job => {
+        res.json({
+            success: true,
+            message: {
+                buildCommand: job.project.buildCommand,
+                deployCommand: job.project.deployCommand
+            }
+        })
+    }).catch(err => console.log(err));
+});
+
 router.post('/scheduleBuild', passport.authenticate('jwt', { session: false }), (req, res) => {
     JenkinsJob.findOne({
         name: req.body.jobName
