@@ -17,13 +17,14 @@ export const getJenkinsJobs = () => dispatch => {
         });
 }
 
-export const createNewJob = (jobDetails) => dispatch => {
+export const createNewJob = (jobDetails, history) => dispatch => {
     axios.post('/api/jenkins/createNewJob', jobDetails)
         .then(res => {
             dispatch({
                 type: res.data.success ? JOB_CREATION_SUCCESS : JOB_CREATION_FAILURE,
                 payload: res.data.message,
-            })
+            });
+            history.replace("/home");
         })
         .catch(err => {
             dispatch({
