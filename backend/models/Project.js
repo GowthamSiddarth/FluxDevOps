@@ -15,6 +15,14 @@ const ProjectSchema = new Schema({
     type: {
         type: String,
         required: true,
+    },
+    buildCommand: {
+        type: String,
+        required: true,
+    },
+    deployCommand: {
+        type: String,
+        required: true,
     }
 });
 
