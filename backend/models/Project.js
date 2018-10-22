@@ -1,9 +1,11 @@
+const ProjectLocation = require('./ProjectLocation');
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
     location: {
-        type: String,
+        type: ProjectLocation.schema,
         required: true,
     },
     name: {
