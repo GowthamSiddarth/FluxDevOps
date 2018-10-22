@@ -35,7 +35,7 @@ export const createNewJob = (jobDetails, history) => dispatch => {
 }
 
 export const getJobDetails = (jobName) => dispatch => {
-    axios.get('/api/jenkins/getJobDetails', jobName)
+    axios.get('/api/jenkins/getJobDetails/' + jobName)
         .then(res => {
             dispatch({
                 type: res.data.success ? JOB_DETAILS_SUCCESS : JOB_DETAILS_FAILURE,
