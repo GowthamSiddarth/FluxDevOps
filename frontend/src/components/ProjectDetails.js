@@ -18,10 +18,10 @@ class ProjectDetails extends Component {
         super();
 
         this.state = {
-            projectLocationType: '',
+            projectLocationType: 'default',
             projectLocation: '',
             projectName: '',
-            projectType: '',
+            projectType: 'default',
             buildCommand: 'mvn -Dmaven.test.failure.ignore clean package',
             submitButtonIsDisabled: true,
             errors: {},
@@ -82,6 +82,10 @@ class ProjectDetails extends Component {
         e.preventDefault();
         this.setState({
             projectLocationType: e.target.value,
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
         });
     }
 
@@ -89,7 +93,10 @@ class ProjectDetails extends Component {
         e.preventDefault();
         this.setState({
             projectLocation: e.target.value.trim(),
-            submitButtonIsDisabled: !this.isFormValid(),
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
         });
     }
 
@@ -97,7 +104,10 @@ class ProjectDetails extends Component {
         e.preventDefault();
         this.setState({
             projectName: e.target.value.trim(),
-            submitButtonIsDisabled: !this.isFormValid(),
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
         });
     }
 
@@ -105,7 +115,10 @@ class ProjectDetails extends Component {
         e.preventDefault();
         this.setState({
             projectType: e.target.value,
-            submitButtonIsDisabled: !this.isFormValid(),
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
         });
     }
 
@@ -113,7 +126,10 @@ class ProjectDetails extends Component {
         e.preventDefault();
         this.setState({
             buildCommand: e.target.value.trim(),
-            submitButtonIsDisabled: !this.isFormValid(),
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
         })
     }
 
