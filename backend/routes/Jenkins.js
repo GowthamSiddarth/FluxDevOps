@@ -12,6 +12,7 @@ const validateProjectDetails = require('../validation/projectDetails');
 
 const Project = require('../models/Project');
 const JenkinsJob = require('../models/JenkinsJob');
+const ProjectLocation = require('../models/ProjectLocation');
 
 const router = express.Router();
 
@@ -71,8 +72,13 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
                             errors.projectName = 'Job for Project Name already created!';
                             return res.status(400).json(errors);
                         } else {
+                            const newProjectLocation = new ProjectLocation({
+                                scm: req.body.projectLocationType,
+                                path: req.body.projectLocation,
+                            });
+                            
                             const newProject = new Project({
-                                location: req.body.projectLocation,
+                                location: newProjectLocation,
                                 name: req.body.projectName,
                                 type: req.body.projectType,
                             });
