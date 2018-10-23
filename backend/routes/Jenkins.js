@@ -38,8 +38,7 @@ router.get('/jobs', passport.authenticate('jwt', { session: false }), (req, res)
     });
 });
 
-router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req.body);
+router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (req, res) => {    
     fs.readFile(__dirname + '/../jenkins-job-config.xml', (err, data) => {
         if (err) {
             console.log(err);
