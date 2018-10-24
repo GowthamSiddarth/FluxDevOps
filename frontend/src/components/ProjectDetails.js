@@ -25,7 +25,7 @@ class ProjectDetails extends Component {
             buildCommand: '',
             buildCommandAlert: false,
             deployCommand: '',
-            deploymentMode: '',
+            deploymentServer: '',
             portNumber: '',
             submitButtonIsDisabled: true,
             errors: {},
@@ -37,7 +37,7 @@ class ProjectDetails extends Component {
         this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
         this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
         this.handleDeployCommandChange = this.handleDeployCommandChange.bind(this);
-        this.handleDeploymentModeChange = this.handleDeploymentModeChange.bind(this);
+        this.handleDeploymentServerChange = this.handleDeploymentServerChange.bind(this);
         this.handlePortNumberChange = this.handlePortNumberChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -49,7 +49,7 @@ class ProjectDetails extends Component {
             this.state.projectType !== 'default' &&
             this.state.buildCommand.trim().length !== 0 &&
             this.state.deployCommand.trim().length !== 0 &&
-            this.state.deploymentMode.trim().length !== 0 &&
+            this.state.deploymentServer.trim().length !== 0 &&
             this.state.portNumber.trim().length !== 0;
     }
 
@@ -83,7 +83,7 @@ class ProjectDetails extends Component {
             projectType: this.state.projectType,
             buildCommand: this.state.buildCommand,
             deployCommand: this.state.deployCommand,
-            deploymentMode: this.state.deploymentMode,
+            deploymentServer: this.state.deploymentServer,
             portNumber: this.state.portNumber,
         };
 
@@ -164,10 +164,10 @@ class ProjectDetails extends Component {
         });
     }
 
-    handleDeploymentModeChange(e) {
+    handleDeploymentServerChange(e) {
         e.preventDefault();
         this.setState({
-            deploymentMode: e.target.value,
+            deploymentServer: e.target.value,
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
@@ -275,15 +275,15 @@ class ProjectDetails extends Component {
                         <div className="form-group">
                             <select
                                 className={classnames('form-control form-control-md', {
-                                    'is-invalid': errors.deploymentMode
+                                    'is-invalid': errors.deploymentServer
                                 })}
-                                onChange={this.handleDeploymentModeChange}>
+                                onChange={this.handleDeploymentServerChange}>
                                 <option value="default">Select Deployment Mode</option>
                                 <option value="jboss">Jboss</option>
                                 <option value="tomcat">Tomcat</option>
                                 <option value="jar">Simple Jar</option>
                             </select>
-                            {errors.deploymentMode && (<div className="invalid-feedback">{errors.deploymentMode}</div>)}
+                            {errors.deploymentServer && (<div className="invalid-feedback">{errors.deploymentServer}</div>)}
                         </div>
                         <div className="form-group">
                             <input

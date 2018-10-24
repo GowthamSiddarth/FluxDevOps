@@ -23,6 +23,14 @@ const ProjectSchema = new Schema({
     deployCommand: {
         type: String,
         required: true,
+    },
+    deploymentServer: {
+        type: String,
+        required: true,
+    },
+    portNumber: {
+        type: Number,
+        required: true,
     }
 });
 

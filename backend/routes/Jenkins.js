@@ -82,6 +82,8 @@ router.post('/createNewJob', passport.authenticate('jwt', { session: false }), (
                                 type: req.body.projectType,
                                 buildCommand: req.body.buildCommand,
                                 deployCommand: req.body.deployCommand,
+                                deploymentServer: req.body.deploymentServer,
+                                portNumber: req.body.portNumber,
                             });
 
                             const newJenkinsJob = new JenkinsJob({
