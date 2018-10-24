@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const http = require('http');
 const jenkinsapi = require('jenkins-api');
 const fs = require('fs');
 const xml2js = require('xml2js');
