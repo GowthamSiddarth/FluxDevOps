@@ -23,6 +23,8 @@ class ProjectDetails extends Component {
             projectType: 'default',
             buildCommand: 'mvn -Dmaven.test.failure.ignore clean package',
             deployCommand: '',
+            deploymentMode: '',
+            portNumber: '',
             submitButtonIsDisabled: true,
             errors: {},
         }
@@ -33,6 +35,8 @@ class ProjectDetails extends Component {
         this.handleProjectNameChange = this.handleProjectNameChange.bind(this);
         this.handleBuildCommandChange = this.handleBuildCommandChange.bind(this);
         this.handleDeployCommandChange = this.handleDeployCommandChange.bind(this);
+        this.handleDeploymentModeChange = this.handleDeploymentModeChange.bind(this);
+        this.handlePortNumberChange = this.handlePortNumberChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -42,7 +46,9 @@ class ProjectDetails extends Component {
             this.state.projectName.trim().length !== 0 &&
             this.state.projectType !== 'default' &&
             this.state.buildCommand.trim().length !== 0 &&
-            this.state.deployCommand.trim().length !== 0
+            this.state.deployCommand.trim().length !== 0 &&
+            this.state.deploymentMode.trim().length !== 0 &&
+            this.state.portNumber.trim().length !== 0;
     }
 
     componentDidMount() {
@@ -139,6 +145,28 @@ class ProjectDetails extends Component {
         });
     }
 
+    handleDeploymentModeChange(e) {
+        e.preventDefault();
+        this.setState({
+            deploymentMode: e.target.value,
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
+        });
+    }
+
+    handlePortNumberChange(e) {
+        e.preventDefault();
+        this.setState({
+            portNumber: e.target.value,
+        }, () => {
+            this.setState({
+                submitButtonIsDisabled: !this.isFormValid()
+            })
+        });
+    }
+
     render() {
         const { errors } = this.state;
         return (
@@ -223,6 +251,32 @@ class ProjectDetails extends Component {
                                 value={this.state.deployCommand}
                             />
                             {errors.deployCommand && (<div className="invalid-feedback">{errors.deployCommand}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <select
+                                className={classnames('form-control form-control-md', {
+                                    'is-invalid': errors.deploymentMode
+                                })}
+                                onChange={this.handleDeploymentModeChange}>
+                                <option value="default">Select Deployment Mode</option>
+                                <option value="jboss">Jboss</option>
+                                <option value="tomcat">Tomcat</option>
+                                <option value="jar">Simple Jar</option>
+                            </select>
+                            {errors.deploymentMode && (<div className="invalid-feedback">{errors.deploymentMode}</div>)}
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="text"
+                                placeholder="Enter Port Number of Application"
+                                className={classnames('form-control form-control-md', {
+                                    'is-invalid': errors.portNumber
+                                })}
+                                name="portNumber"
+                                onChange={this.handlePortNumberChange}
+                                value={this.state.portNumber}
+                            />
+                            {errors.portNumber && (<div className="invalid-feedback">{errors.portNumber}</div>)}
                         </div>
                         <Button type="submit" disabled={this.state.submitButtonIsDisabled}>Submit</Button>
                     </form>
