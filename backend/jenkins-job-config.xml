@@ -24,19 +24,7 @@
           <description>Command to deploy the build</description>
           <defaultValue></defaultValue>
           <trim>true</trim>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>sonarUrl</name>
-          <description>Provides link to sonar dashboard</description>
-          <defaultValue></defaultValue>
-          <trim>true</trim>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>sonarToken</name>
-          <description>Token to authenticated sonar user</description>
-          <defaultValue></defaultValue>
-          <trim>true</trim>
-        </hudson.model.StringParameterDefinition>
+        </hudson.model.StringParameterDefinition>        
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
