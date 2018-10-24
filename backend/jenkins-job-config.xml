@@ -25,6 +25,18 @@
           <defaultValue></defaultValue>
           <trim>true</trim>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>sonarUrl</name>
+          <description>Provides link to sonar dashboard</description>
+          <defaultValue></defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>sonarToken</name>
+          <description>Token to authenticated sonar user</description>
+          <defaultValue></defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -42,12 +54,14 @@
             mvnHome = tool 'M3'
             javaHome = tool 'jdk_1.8.0_131'
         }
-        stage('Build') {
+        stage('Build with Code Analysis') {
             // Run the maven build
             if (isUnix()) {
-                sh "${params.buildCommand}"
+                sh "${params.buildCommand} "
             } else {
-                bat(/${params.buildCommand}/)
+                withSonarQubeEnv('MySonarQubeServer') {
+                  bat(/${params.buildCommand} org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar /)                  
+                }                
             }
         }
         stage('Deploy') {
