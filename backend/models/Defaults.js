@@ -6,14 +6,17 @@ const CommandSchema = new Schema({
         type: String,
         required: true,
     },
-    command: {
+    build_command: {
         type: String,
         required: true,
     }
 });
 
 const DefaultsSchema = new Schema({
-    commands: [CommandSchema.schema]
+    commands: {
+        type: [CommandSchema.schema],
+        required: true,
+    }
 });
 
 const Defaults = mongoose.model("defaults", DefaultsSchema);
