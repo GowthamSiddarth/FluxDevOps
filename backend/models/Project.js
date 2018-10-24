@@ -30,7 +30,7 @@ const ProjectSchema = new Schema({
     },
     portNumber: {
         type: Number,
-        required: true,
+        required: false,
     }
 });
 

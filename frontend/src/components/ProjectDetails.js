@@ -49,8 +49,7 @@ class ProjectDetails extends Component {
             this.state.projectType !== 'default' &&
             this.state.buildCommand.trim().length !== 0 &&
             this.state.deployCommand.trim().length !== 0 &&
-            this.state.deploymentServer.trim().length !== 0 &&
-            this.state.portNumber.trim().length !== 0;
+            this.state.deploymentServer.trim().length !== 0            
     }
 
     componentDidMount() {
