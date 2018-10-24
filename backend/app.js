@@ -5,6 +5,7 @@ const passport = require('passport');
 const config = require('./db');
 const users = require('./routes/User');
 const jenkins = require('./routes/Jenkins');
+const defaults = require('./routes/Defaults');
 
 mongoose.connect(config.DB, { useNewUrlParser: true })
     .then(() => {
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 
 app.use('/api/users', users);
 app.use('/api/jenkins', jenkins);
+app.use('/api/defaults', defaults);
 
 app.get('/', function (req, res) {
     res.send("hello");
