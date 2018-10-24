@@ -10,6 +10,7 @@ import { UncontrolledAlert } from "reactstrap";
 import { HorizontalCenterView } from '../views/HorizontalCenterView';
 
 import { createNewJob } from '../actions/jenkins';
+import { getDefaultBuildCommand } from "../actions/defaults";
 
 class ProjectDetails extends Component {
 
@@ -21,7 +22,8 @@ class ProjectDetails extends Component {
             projectLocation: '',
             projectName: '',
             projectType: 'default',
-            buildCommand: 'mvn -Dmaven.test.failure.ignore clean package',
+            buildCommand: '',
+            buildCommandAlert: false,
             deployCommand: '',
             deploymentMode: '',
             portNumber: '',
@@ -62,6 +64,13 @@ class ProjectDetails extends Component {
             this.setState({
                 errors: nextProps.errors
             });
+        }
+
+        if (nextProps.defaults) {
+            this.setState({
+                buildCommand: nextProps.defaults.buildCommand,
+                buildCommandAlert: true,
+            })
         }
     }
 
@@ -123,6 +132,14 @@ class ProjectDetails extends Component {
                 submitButtonIsDisabled: !this.isFormValid()
             })
         });
+
+        if (e.target.value !== 'default') {
+            const project = {
+                projectType: e.target.value,
+            };
+
+            this.props.getDefaultBuildCommand(project);
+        }
     }
 
     handleBuildCommandChange(e) {
@@ -220,8 +237,8 @@ class ProjectDetails extends Component {
                                 })}
                                 onChange={this.handleProjectTypeChange}>
                                 <option value="default">Select Project Type</option>
-                                <option value="Maven">Maven</option>
-                                <option value="NPM">NPM</option>
+                                <option value="maven">Maven</option>
+                                <option value="npm">NPM</option>
                             </select>
                             {errors.projectType && (<div className="invalid-feedback">{errors.projectType}</div>)}
                         </div>
@@ -236,9 +253,10 @@ class ProjectDetails extends Component {
                                 onChange={this.handleBuildCommandChange}
                                 value={this.state.buildCommand}
                             />
-                            <UncontrolledAlert color="info">
-                                This is the default build command which we'll be using. You can edit it according to your project
-                                    </UncontrolledAlert>
+                            {this.state.buildCommandAlert &&
+                                (<UncontrolledAlert color="info">
+                                    This is the default build command which we'll be using. You can edit it according to your project
+                                </UncontrolledAlert>)}
                             {errors.buildCommand && (<div className="invalid-feedback">{errors.buildCommand}</div>)}
                         </div>
                         <div className="form-group">
@@ -292,19 +310,23 @@ class ProjectDetails extends Component {
 
 ProjectDetails.propTypes = {
     createNewJob: PropTypes.func.isRequired,
+    getDefaultBuildCommand: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     jenkins: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    defaults: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
     createNewJob: bindActionCreators(createNewJob, dispatch),
+    getDefaultBuildCommand: bindActionCreators(getDefaultBuildCommand, dispatch),
 });
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
     jenkins: state.jenkins,
     errors: state.errors,
+    defaults: state.defaults
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ProjectDetails));

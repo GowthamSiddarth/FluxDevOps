@@ -6,7 +6,6 @@ const Defaults = require('../models/Defaults');
 const router = express.Router();
 
 router.post('/command', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log(req.body.projectType);
     Defaults.aggregate([
         { $unwind: "$commands" },
         { $match: { "commands.project_type": req.body.projectType } },
