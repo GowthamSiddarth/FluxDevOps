@@ -74,6 +74,8 @@ class ProjectDetails extends Component {
             projectType: this.state.projectType,
             buildCommand: this.state.buildCommand,
             deployCommand: this.state.deployCommand,
+            deploymentMode: this.state.deploymentMode,
+            portNumber: this.state.portNumber,
         };
 
         this.props.createNewJob(project, this.props.history);
