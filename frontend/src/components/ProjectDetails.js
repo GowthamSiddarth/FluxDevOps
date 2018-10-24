@@ -38,11 +38,11 @@ class ProjectDetails extends Component {
 
     isFormValid() {
         return this.state.projectLocationType !== 'default' &&
-            this.state.projectLocation.length !== 0 &&
-            this.state.projectName.length !== 0 &&
+            this.state.projectLocation.trim().length !== 0 &&
+            this.state.projectName.trim().length !== 0 &&
             this.state.projectType !== 'default' &&
-            this.state.buildCommand.length !== 0 &&
-            this.state.deployCommand.length !== 0
+            this.state.buildCommand.trim().length !== 0 &&
+            this.state.deployCommand.trim().length !== 0
     }
 
     componentDidMount() {
@@ -87,7 +87,7 @@ class ProjectDetails extends Component {
     handleProjectLocationChange(e) {
         e.preventDefault();
         this.setState({
-            projectLocation: e.target.value.trim(),
+            projectLocation: e.target.value,
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
@@ -98,7 +98,7 @@ class ProjectDetails extends Component {
     handleProjectNameChange(e) {
         e.preventDefault();
         this.setState({
-            projectName: e.target.value.trim(),
+            projectName: e.target.value,
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
@@ -120,7 +120,7 @@ class ProjectDetails extends Component {
     handleBuildCommandChange(e) {
         e.preventDefault();
         this.setState({
-            buildCommand: e.target.value.trim(),
+            buildCommand: e.target.value,
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
@@ -131,7 +131,7 @@ class ProjectDetails extends Component {
     handleDeployCommandChange(e) {
         e.preventDefault();
         this.setState({
-            deployCommand: e.target.value.trim(),
+            deployCommand: e.target.value,
         }, () => {
             this.setState({
                 submitButtonIsDisabled: !this.isFormValid()
