@@ -267,12 +267,14 @@ class ProjectDetails extends Component {
                         </div>
                         <div className="form-group">
                             <input
-                                type="text"
+                                type="number"
                                 placeholder="Enter Port Number of Application"
                                 className={classnames('form-control form-control-md', {
                                     'is-invalid': errors.portNumber
                                 })}
                                 name="portNumber"
+                                min="3000"
+                                max="65535"
                                 onChange={this.handlePortNumberChange}
                                 value={this.state.portNumber}
                             />
